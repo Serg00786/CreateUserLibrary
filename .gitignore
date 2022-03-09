@@ -8,3 +8,4 @@
 *.yml
 *.CopyComplete
 *.txt
+/obj/Debug/netcoreapp3.1

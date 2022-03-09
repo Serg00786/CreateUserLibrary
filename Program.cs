@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CreateUserLibrary.BusinessLogic;
+using CreateUserLibrary.Interfaces;
+using System;
+using System.Threading;
 
 namespace CreateUserLibrary
 {
@@ -6,7 +9,8 @@ namespace CreateUserLibrary
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ICreateUser create = new CreateUser();
+            create.CreateNewUser();
         }
     }
 }
