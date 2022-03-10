@@ -3,6 +3,7 @@ using CreateUserLibrary.Model;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -12,38 +13,51 @@ namespace CreateUserLibrary.BusinessLogic
     {
         public async Task CreateNewUser()
         {
+            var jsonSerializerOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var url = "http://localhost:50689/api/User/registration/";
 
-            using (var client = new HttpClient())
+            using (var httpclient = new HttpClient())
             {
-                var jsonSerializerOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                string url = "http://localhost:52682/api/User/registration";
-                var Registration = new RegistrationForm { DisplayName = "Sergey1", Email = "test1@test.com", Password = "2wsx@WSX", UserName = "Serg1" };
-                var Response = await client.PostAsJsonAsync(url, Registration);
-                
-                if (Response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                try
                 {
-                    var body = await Response.Content.ReadAsStringAsync();
-                    var errorsFromWebAPI = Utils.ExtractErrorFromWebApiResponse(body);
+                    RegistrationForm Registration = new RegistrationForm() { DisplayName = "Sergey", UserName = "Serg", Email = "test@test.com", Password = "2wsx@WSX" };
+                    var RegistrationSerialized = JsonSerializer.Serialize(Registration);
+                    var Content = new StringContent(RegistrationSerialized, Encoding.UTF8, "application/json");
+                    var Response = await httpclient.PostAsync(url, Content);
 
-                    foreach (var fieldwithErrors in errorsFromWebAPI)
+                    if (Response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                     {
-                        Console.WriteLine($"-{fieldwithErrors.Key}");
-                        foreach (var error in fieldwithErrors.Value)
+                        var body = await Response.Content.ReadAsStringAsync();
+                        var errorsFromWebAPI = Utils.ExtractErrorFromWebApiResponse(body);
+
+                        foreach (var fieldwithErrors in errorsFromWebAPI)
                         {
-                            Console.WriteLine($"  {error}");
+                            Console.WriteLine($"-{fieldwithErrors.Key}");
+                            foreach (var error in fieldwithErrors.Value)
+                            {
+                                Console.WriteLine($"  {error}");
+                            }
+
                         }
-
                     }
-                }
 
-                var people = JsonSerializer.Deserialize<List<RegistrationForm>>(await client.GetStringAsync(url), jsonSerializerOptions);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
 
             };
 
 
 
 
-            
+
+
+
+
         }
     }
 }

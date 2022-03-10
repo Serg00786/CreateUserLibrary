@@ -2,15 +2,16 @@
 using CreateUserLibrary.Interfaces;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CreateUserLibrary
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             ICreateUser create = new CreateUser();
-            create.CreateNewUser();
+            await create.CreateNewUser();
         }
     }
 }

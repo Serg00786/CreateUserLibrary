@@ -8,12 +8,12 @@ namespace CreateUserLibrary.Model
     internal class RegistrationForm
     {
         [Required]
-        internal string DisplayName { get; set; }
+        public string DisplayName { get; set; }
         [Required]
-        internal string UserName { get; set; }
+        public string UserName { get; set; }
         [Required]
-        internal string Email { get; set; }
+        public string Email { get; set; }
         [Required]
-        internal string Password { get; set; }
+        public string Password { get; set; }
     }
 }
