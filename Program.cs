@@ -1,12 +1,17 @@
-﻿using System;
+﻿using CreateUserLibrary.BusinessLogic;
+using CreateUserLibrary.Interfaces;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CreateUserLibrary
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ICreateUser create = new CreateUser();
+            await create.CreateNewUser();
         }
     }
 }

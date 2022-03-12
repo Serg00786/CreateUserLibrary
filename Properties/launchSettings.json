@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CreateUserLibrary": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
